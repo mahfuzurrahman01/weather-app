@@ -1,6 +1,7 @@
 "use client";
 import { ILocation, IWeather } from "@/interface/interface";
 import axios from "axios";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 const styling1 = {
@@ -39,7 +40,7 @@ export default function Home() {
   const initial = async () => {
     try {
       const response = await axios.get(
-        `http://api.weatherapi.com/v1/current.json?key=25910174a87a4c63a6c141019230506&q=Bangladesh&aqi=no`
+        `https://api.weatherapi.com/v1/current.json?key=25910174a87a4c63a6c141019230506&q=Bangladesh&aqi=no`
       );
       if (response.data) {
         setLocationDetails(response.data.location);
@@ -59,7 +60,7 @@ export default function Home() {
   const search = async () => {
     try {
       const response = await axios.get(
-        `http://api.weatherapi.com/v1/current.json?key=25910174a87a4c63a6c141019230506&q=${searchedText}&aqi=no`
+        `https://api.weatherapi.com/v1/current.json?key=25910174a87a4c63a6c141019230506&q=${searchedText}&aqi=no`
       );
       if (response.data) {
         setLocationDetails(response.data.location);
@@ -76,7 +77,7 @@ export default function Home() {
   const searchWith = async (name: string | any) => {
     try {
       const response = await axios.get(
-        `http://api.weatherapi.com/v1/current.json?key=25910174a87a4c63a6c141019230506&q=${name}&aqi=no`
+        `https://api.weatherapi.com/v1/current.json?key=25910174a87a4c63a6c141019230506&q=${name}&aqi=no`
       );
       if (response.data) {
         setLocationDetails(response.data.location);
@@ -99,14 +100,16 @@ export default function Home() {
           {weatherDetails?.condition?.icon && (
             <div className=" p-1 lg:my-7 my-4 ml-16">
               <Image
-                src={`http:${weatherDetails?.condition?.icon}`}
+                src={`https:${weatherDetails?.condition?.icon}`}
                 width={120}
                 height={120}
                 alt="Picture of the author"
               />
             </div>
           )}
-          <div className="lg:absolute lg:bottom-10 lg:left-0 lg:right-0 text-center flex lg:flex-row flex-col lg:justify-center justify-between items-center lg:gap-10 gap-3">
+          <motion.div initial={{ opacity: 0, scale: 0.5 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.5 }} className="lg:absolute lg:bottom-10 lg:left-0 lg:right-0 text-center flex lg:flex-row flex-col lg:justify-center justify-between items-center lg:gap-10 gap-3">
             <p className="lg:text-8xl text-5xl font-sans font-semibold text-gray-100 flex items-center">
               {Math.round(weatherDetails.temp_c)}{" "}
               <sup className="lg:text-5xl text-2xl">o </sup>
@@ -132,7 +135,7 @@ export default function Home() {
                 <span>Wind:{weatherDetails.wind_kph} km/h</span>
               </small>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* *********** extra info ************* */}
